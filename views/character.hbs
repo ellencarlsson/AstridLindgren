@@ -1,5 +1,12 @@
 <link rel="stylesheet" href="character.css">
 
+{{#if dbError}}
+
+    hej hej
+{{else}}
+
+
+{{/if}}
 
 {{#if character}}
 
@@ -13,26 +20,18 @@
                 {{character.description}}
             </p>
 
-
             <div class="box" style="margin-top: 20px;">
                 <p>Click play to hear theme music</p>
                 <audio controls autoplay>
                     <source src="/sounds/{{character.soundName}}" type="audio/mp3">
                 </audio>
             </div>
-                    
-                    
-             
-
-            
-
+ 
         </div>
         
         <div class="section column image">
             <img src="/images/img_characters/{{character.imageName}}">
         </div>
-
-        
 
     </div>
 
@@ -42,20 +41,42 @@
         </p>
     </div>
 
-    
+{{else}}
+
+
+
+
+
+
+        <div class="subtitle is-4 has-text-centered mt-6" style="font-size: 135px;">
+            404
+        </div>
+
+        <div class="subtitle is-4 has-text-centered mt-6">
+            The character you're trying to reach is unfortunately not here
+        </div>
+
 
         
+        <div class="column has-text-centered">
+            <a href="/characters" class="button is-responsive">Go to all characters</a>
+        </div>
+
+        <div class="column has-text-centered">
+            <img src="/images/img_characters/karlsson_sur.jpeg">
+        </div>
 
 
 
 
 
-
-
-
-{{else}}
-    <p>That character does not exist</p>
+    
 {{/if}}
+
+
+
+
+
 
 
 <div class="columns is-mobile is-multiline is-centered">

@@ -11,10 +11,23 @@
         </div>
     </h1>
 
-   
+    {{#if dbError}}
 
-    
-    {{#if characters.length}}
+        <div class="subtitle is-4 has-text-centered mt-6">
+            Charatcers could not load, please try again later
+        </div>
+        
+        <div class="column has-text-centered">
+            <a href="/" class="button is-responsive mt-6">Go to start page</a>
+        </div>
+
+
+
+
+
+
+    {{else}}
+        {{#if characters.length}}
         
             <section class="section">
                 <div class="container">
@@ -55,6 +68,11 @@
         </div>   
     </div>
 
+    {{/if}}
+   
+    
+    
+    
 </body>
 
 
