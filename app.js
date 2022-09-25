@@ -30,6 +30,8 @@ db.run(`
     )
 `)
 
+
+
 const app = express()
 
 app.engine('hbs', expressHandlebars.engine({
@@ -94,12 +96,21 @@ app.get('/characters', function(request, response){
 
     db.all(query, function(error, characters){
 
-        const model = {
-            characters
-                
+        if(error){
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+            response.render('characters.hbs', model)
+        } else {
+            const model = {
+                characters
+                    
+            }
+    
+            response.render('characters.hbs', model)
         }
-
-        response.render('characters.hbs', model)
+   
     })  
 })
 
@@ -111,10 +122,17 @@ app.get('/characters/:id', function(request, response){
     const values = [id]
 
     db.get(query, values, function(error, character){
-        const model = {
-            character,
-        }
-        response.render('character.hbs', model)
+        if(error){
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+        } else {
+            const model = {
+                character
+            }
+            response.render('character.hbs', model)
+        }      
     }) 
 })
 
@@ -132,8 +150,6 @@ app.post('/add-character', function(request, response){
 
         var imageName;
         var soundName;
-        
-        
 
         if(request.body.checkImg){
             imageName = "noPfp.jpeg"
@@ -165,9 +181,6 @@ app.post('/add-character', function(request, response){
                 }
             })
         };
-
-
-        
 
     const query = `INSERT INTO characters (name, description, imageName, soundName)
                 VALUES(?, ?, ?, ?)`
@@ -210,28 +223,40 @@ app.get('/movies', function(request, response){
 
         response.render('movies.hbs', model) 
     }) 
+
+
+    
+
 })
 
 //---------------specific movie----------------
 app.get('/movies/:id', function(request, response){
+
     const id = request.params.id
 
-    const query = `SELECT * FROM movies WHERE id = ?`
+    const query = `SELECT * FROM characters JOIN movies ON characters.id=movies.char_id WHERE movies.id = ?`
     const values = [id]
 
-    db.get(query, values, function(error, movie, character){
+    db.get(query, values, function(error, movie){
         const model = {
-            movie,
-            character
+            movie
+            
         }
         response.render('movie.hbs', model)
     })
+
+  
+
 })
    
 //---------------add movie----------------
 app.get('/add-movies', function(request, response){
     response.render('add-movie.hbs')
 })
+
+
+
+
 
 
 
