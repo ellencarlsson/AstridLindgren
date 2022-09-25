@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="character.css">
+
+
+{{#if character}}
+
+    <h1 class="title has-text-centered pt-6">
+        {{character.name}} 
+    </h1> 
+
+    <div class="columns is-centered">
+        <div class="section column">
+            <p>
+                {{character.description}}
+            </p>
+
+
+            <div class="box" style="margin-top: 20px;">
+                <p>Click play to hear theme music</p>
+                <audio controls autoplay>
+                    <source src="/sounds/{{character.soundName}}" type="audio/mp3">
+                </audio>
+            </div>
+                    
+                    
+             
+
+            
+
+        </div>
+        
+        <div class="section column image">
+            <img src="/images/img_characters/{{character.imageName}}">
+        </div>
+
+        
+
+    </div>
+
+    <div class="section">
+        <p>
+            här ska det vara andra karaktärer
+        </p>
+    </div>
+
+    
+
+        
+
+
+
+
+
+
+
+
+{{else}}
+    <p>That character does not exist</p>
+{{/if}}
+
+
+<div class="columns is-mobile is-multiline is-centered">
+  <div class="column is-narrow">
+    <p class="bd-notification is-primary">
+      <a href="/add-character" class="button">Add character</a>
+    </p>
+  </div>
+  <div class="column is-narrow">
+    <p class="bd-notification is-primary">
+        <form action="/delete-character/{{character.id}}" method="POST">
+              <button class="button">Delete {{character.name}}</button>
+        </form>
+    </p>
+  </div>
+  <div class="column is-narrow">
+    <p class="bd-notification is-primary">
+      <a href="/edit-character" class="button">Edit character</a>
+    </p>
+  </div>
+</div>
+  
+
+
+
+

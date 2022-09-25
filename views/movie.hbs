@@ -1,0 +1,47 @@
+{{#if movie}}
+
+    <h1 class="title has-text-centered pt-6">
+        {{movie.name}} 
+    </h1> 
+
+    <p>här är karaktärens namn: {{character.name}}</p>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column image">
+                    här är en bild på filmen
+                    <img src="/images/img_movies/{{movie.imgName}}">
+                </div>
+                <div class="column">
+                    här är en beskrivning om filmen
+                    <p>
+                        {{movie.description}}
+                    </p> 
+                </div>
+                <div class="column">
+                    <div class="has-text-centered px-6">
+                            här är en bild på karaktären
+                            <a href="/characters/{{movie.char_id}}">  
+                                <img src="/images/img_characters/{{character.imageName}}" style="border-radius: 50%;">      
+                            </a>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <div class="section">
+        <p>
+            här ska det vara andra filmer från samma karaktär
+        </p>
+    </div>
+{{else}}
+    <p>That movie does not exist</p>
+{{/if}}

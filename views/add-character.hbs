@@ -1,0 +1,60 @@
+
+
+
+<h1 class="title has-text-centered pt-6">
+        Add Character
+</h1> 
+
+
+
+<div class="columns is-centered">
+    <div class="column is-5">
+        <div class="box ">
+            <form method="POST"  action="/add-character"  enctype="multipart/form-data">
+                <div class="mb-3">
+                    Name: <input type="string" name="name" placeholder="Type name" class="input">
+                </div>
+                <div class="mb-3">
+                    Description: <input type="string" name="description" placeholder="Type description" class="input">
+                </div>
+               <div class="mb-3">
+                    Image:  
+                    <input type="file" name="imageName" accept="image/png, image/jpeg" placeholder="Type description" class="input" />
+                    <p class="help">     
+                            <input type="checkbox" name="checkImg" checked="true" value="true">
+                            Use the standard image                    
+                    </p>
+                </div>
+                <div class="mb-3">
+                    Theme song: <input type="file" name="soundName" accept="audio/mp3" placeholder="Type description" class="input"/>       
+                    <p class="help">             
+                            <input type="checkbox" name="checkSnd" checked="true" value="true">
+                            Use the standard theme song                    
+                    </p>
+                </div>
+                
+                <div class="column has-text-centered">
+                    <button class="button is-medium is-responsive mt-6">
+                        Add character
+                    </button>
+                </div>  
+
+
+            </form>
+        </div>
+    </div>  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

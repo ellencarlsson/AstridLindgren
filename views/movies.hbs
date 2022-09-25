@@ -1,0 +1,49 @@
+<body>
+    <h1 class="title has-text-centered pt-6">
+        {{!-- <div>
+            <img src="/images/img_characters/header-character.jpeg">
+        </div> --}}
+        <div>
+            Movies
+        </div>
+    </h1>
+
+   
+
+    
+    {{#if movies.length}}
+        
+            <section class="section">
+                <div class="container">
+                    <div class="columns is-multiline is-8 is-variable">
+                        {{#each movies}} 
+                            <div class="column is-4-tablet is-3-desktop">
+
+                                <section class="container">
+                                    <div class="has-text-centered px-6">
+                                            <a href="/movies/{{id}}">  
+                                                <img src="/images/img_movies/{{imgName}}">      
+                                            </a>    
+                                    </div>
+                                    
+                                    <div class= "has-centered">
+                                        <a href="/movies/{{id}}" class="card-header-title is-centered">{{name}}</a>
+                                    </div>
+
+                                </section>
+                                    
+                            </div>
+                        {{/each}}    
+                    </div>
+                </div>
+            </section>
+            
+                                    
+        
+        {{else}}
+            <p>There is no movies at the moment.</p>
+    {{/if}}
+
+    <a href="/add-movies" class="button">add movies</a>
+
+</body>
