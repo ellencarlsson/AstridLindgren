@@ -1,16 +1,30 @@
+
+<div class="columns">
+    <div class="column">
+        här ska det finnas filter och sortering
+    </div>
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                Movies
+            </div>
+        </h1>
+    </div>
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                <p class="bd-notification is-primary ">
+                    <a href="/add-movie" class="button">Add movies</a>
+                </p>
+            </div>
+        </h1>
+    </div>
+</div>
+
+
 <body>
-    <h1 class="title has-text-centered pt-6">
-        {{!-- <div>
-            <img src="/images/img_characters/header-character.jpeg">
-        </div> --}}
-        <div>
-            Movies
-        </div>
-    </h1>
-
-   
-
     
+
     {{#if movies.length}}
         
             <section class="section">
@@ -21,14 +35,19 @@
 
                                 <section class="container">
                                     <div class="has-text-centered px-6">
-                                            <a href="/movies/{{id}}">  
-                                                <img src="/images/img_movies/{{imgName}}">      
-                                            </a>    
+                                            <a href="/movies/{{movieID}}">  
+                                                <img src="/images/img_movies/{{imgName}}" >   
+                                            </a>   
+                                                   
                                     </div>
                                     
-                                    <div class= "has-centered">
-                                        <a href="/movies/{{id}}" class="card-header-title is-centered">{{name}}</a>
+                                    <div class= "has-text-centered">
+                                        <a href="/movies/{{id}}" class="subtitle is-centered has-text-centered">{{title}}</a>
+                                        <div class="help">
+                                                {{year}}
+                                            </div> 
                                     </div>
+                                    
 
                                 </section>
                                     
@@ -44,6 +63,6 @@
             <p>There is no movies at the moment.</p>
     {{/if}}
 
-    <a href="/add-movies" class="button">add movies</a>
+    
 
 </body>
