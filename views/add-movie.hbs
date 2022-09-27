@@ -1,1 +1,71 @@
-<p>add movies here</p>
+
+
+<h1 class="title has-text-centered pt-6">
+        Add Movies
+</h1> 
+
+
+{{#if dbError}}
+<p>säg de förfan</p>
+{{/if}}
+
+
+
+
+   
+
+
+
+<div class="columns is-centered">
+    <div class="column is-5">
+        <div class="box ">
+            <form method="POST"  action="/add-movie"  enctype="multipart/form-data">
+                <div class="mb-3">
+                    Title: <input type="string" name="title" placeholder="Type title" class="input" onkeydown="return event.key != 'Enter';">
+                </div>
+                <div class="mb-3 ">
+                    Description: <textarea onkeydown="return event.key = 'Enter';" class="input textarea" name="description" rows="3" placeholder="Type description" ></textarea>              
+                </div>
+                <div class="columns is-left mb-0">
+                    <div class="column is-7 ">                       
+                        Movie cover:  <input type="file" name="imageName" accept="image/png, image/jpeg" class="input" id="desc"/>  
+                        <div class="help">
+                            Allowed file types are: jpeg, jpg
+                        </div>                        
+                    </div>  
+                    <div class="column is-5 mt-1">               
+                        <br>
+                        <input type="checkbox" name="checkImg" value="true">
+                        Use the standard image            
+                    </div>  
+                </div>
+
+                <div class="mb-3">
+                    Year: <input type="integer" name="year" placeholder="Type year" class="input">
+                </div>
+                <div>
+                    Character:
+                </div>
+                <div class="select">
+                    <select name="selectCharacter">
+                        {{#each character}}
+                        <option value="{{id}}" name="name" >{{name}}</option>
+                        {{/each}}
+                    </select>
+                    
+                </div>
+                
+                
+                <div class="column has-text-centered">
+                    <button class="button is-medium is-responsive mt-6">
+                        Add movie
+                    </button>
+                </div>  
+
+
+            </form>
+        </div>
+    </div>  
+</div>
+
+
