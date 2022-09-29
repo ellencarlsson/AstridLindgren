@@ -1,0 +1,130 @@
+<div class="columns">
+    <div class="column">
+        här ska det finnas filter och sortering
+    </div>
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                Books
+            </div>
+        </h1>
+    </div>
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                <p class="bd-notification is-primary ">
+                    <a href="/add-book" class="button">Add books</a>
+                </p>
+            </div>
+        </h1>
+    </div>
+</div>
+
+
+<body>
+    {{#if book.length}}
+        <section class="section">
+            <div class="container">
+                <div class="columns is-multiline is-8 is-variable">
+                    {{#each book}}
+                        <div class="column is-4-tablet is-3-desktop">
+                            <section class="container">
+                                <div class="has-text-centered px-6">
+                                    <a href="/books/{{bookID}}">  
+                                        <img src="/images/img_books/{{imgName}}" >   
+                                    </a>                                          
+                                </div> 
+                                <div class= "has-text-centered">
+                                    <a href="/books/{{bookID}}" class="subtitle is-centered has-text-centered">{{title}}</a>
+                                    <div class="help">
+                                        {{year}}
+                                    </div> 
+                                </div>
+                            </section>   
+                        </div>        
+                    {{/each}}
+                </div>
+            </div>
+        </section>
+        {{else}}
+        <div class="colums has-text-centered">
+            <div class="column subtitle">
+                There is no books at the moment
+            </div>
+        </div>
+    {{/if}}
+</body>
+
+
+
+
+
+
+{{!-- <div class="columns">
+    <div class="column">
+        här ska det finnas filter och sortering
+    </div>
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                Books
+            </div>
+        </h1>
+    </div>
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                <p class="bd-notification is-primary ">
+                    <a href="/add-book" class="button">Add books</a>
+                </p>
+            </div>
+        </h1>
+    </div>
+</div>
+
+
+<body>
+
+    {{#if books.length}}
+        
+            <section class="section">
+                <div class="container">
+                    <div class="columns is-multiline is-8 is-variable">
+                        {{#each book}} 
+                            <div class="column is-4-tablet is-3-desktop">
+                                <section class="container">
+                                    <div class="has-text-centered px-6">
+                                            <a href="/books/{{bookID}}">  
+                                                <img src="/images/img_books/{{imgName}}" >   
+                                            </a>                                          
+                                    </div> 
+                                    <div class= "has-text-centered">
+                                        <a href="/books/{{id}}" class="subtitle is-centered has-text-centered">{{title}}</a>
+                                        <div class="help">
+                                                {{year}}
+                                        </div> 
+                                    </div>
+                                </section>   
+                            </div>
+                        {{/each}}    
+                    </div>
+                </div>
+            </section>
+            
+                                    
+        
+        {{else}}
+        <div class="colums has-text-centered">
+            <div class="column subtitle">
+                There is no books at the moment
+            </div>
+        </div>
+
+
+
+        
+    {{/if}}
+
+    
+
+</body> --}}

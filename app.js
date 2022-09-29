@@ -3,8 +3,8 @@ const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const sqlite3 = require('sqlite3')
 const upload = require('express-fileupload')
-
-const db = new sqlite3.Database("characters-database.db")
+const db = new sqlite3.Database("Astrid-Lindgren-database.db")
+const path = require('node:path');
 
 db.run(`
     CREATE TABLE IF NOT EXISTS characters (
@@ -66,7 +66,7 @@ app.get('/book', function(request, response){
     //     book: book,
     // }
 
-    response.render('book.hbs')
+    response.render('books.hbs')
 })
 
 //----------------------add book------------------ 
@@ -87,7 +87,6 @@ app.post('/add-book', function(request, response){
     response.redirect('/characters')
 })
 //-----CHARACTERS-----CHARACTERS-----CHARACTERS-----CHARACTERS-----CHARACTERS-----CHARACTERS-----CHARACTERS-----CHARACTERS-----CHARACTERS-----//
-
 
 //----------------all characters--------------
 app.get('/characters', function(request, response){
@@ -211,6 +210,8 @@ app.post('/delete-character/:id', function(request, response){
 
 //-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----MOVIES-----//
 
+
+
 //-----------------all movies-----------------
 app.get('/movies', function(request, response){
     const query = `SELECT * FROM movies`
@@ -224,34 +225,163 @@ app.get('/movies', function(request, response){
         response.render('movies.hbs', model) 
     }) 
 
-
-    
-
 })
 
 //---------------specific movie----------------
-app.get('/movies/:id', function(request, response){
+app.get('/movies/:movieID', function(request, response){
 
-    const id = request.params.id
+    const id = request.params.movieID 
 
-    const query = `SELECT * FROM characters JOIN movies ON characters.id=movies.char_id WHERE movies.id = ?`
+    const query = `SELECT * FROM characters JOIN movies ON characters.id=movies.char_id WHERE movies.movieID = ?`
     const values = [id]
 
     db.get(query, values, function(error, movie){
         const model = {
-            movie
-            
+            movie     
         }
+
         response.render('movie.hbs', model)
     })
-
-  
 
 })
    
 //---------------add movie----------------
-app.get('/add-movies', function(request, response){
-    response.render('add-movie.hbs')
+app.get('/add-movie', function(request, response){
+
+    const query = `SELECT id, name FROM characters ORDER BY name ASC`
+
+    db.all(query, function(error, character){
+
+        if(error){
+            console.log(error)
+            const model = {
+                dbError: true
+            }
+            response.render('add-movie.hbs', model)
+        } else {
+            const model = {
+                character
+                    
+            }
+    
+            response.render('add-movie.hbs', model)
+        }
+   
+    })  
+})
+
+function getValidationErrorsForImg(fileName){
+    const validationErrors = []
+    const arraryOfAllowedFiles = [".jpeg", ".jpg"]
+
+    const extension = path.extname(fileName)
+
+    for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
+        if(extension == arraryOfAllowedFiles[i]){
+            return;
+        }
+    }
+    const errorMessage = "You can not choose the type " + extension + " , please choose another type"
+    validationErrors.push(errorMessage)
+    return validationErrors
+}
+
+function getValidationErrorsForMovies(title, imgName, description, year, characterSelected){
+    const minTitleLength = 1
+    const minDescriptionLength = 1
+    
+    const validationErrors = []
+
+    if(title.length < minTitleLength){
+        validationErrors.push("Must enter a title")
+    }
+    if(description.length < minDescriptionLength){
+        validationErrors.push("Must enter a description")
+    }
+    if(isNaN(year)){
+        validationErrors.push("Must write a number")
+    } else if(year < 1800 || year > Date()) {
+        validationErrors.push("Type a year closer to this date ")
+    } 
+    if(isNaN(characterSelected)){
+        validationErrors.push("Choose a character with bokstäver")
+    } else if(characterSelected < 0){
+        validationErrors.push("Id must be a positiv integer")
+    }
+
+    const validationErrorsForImg = getValidationErrorsForImg(imgName)
+    if (validationErrorsForImg != 0){
+        validationErrors.push(validationErrorsForImg)
+    }
+
+    return validationErrors
+ 
+}
+
+
+
+app.post('/add-movie', function(request, response){
+    const title = request.body.title
+    const description = request.body.description
+    const year = parseInt(request.body.year)
+    const characterSelected = request.body.selectCharacter 
+    var imgName
+
+    if(request.body.checkImg){
+        imgName = "noMovie.jpeg"
+    } else {
+        var imgFile = request.files.imageName
+        imgName = imgFile.name
+    
+        imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_movies/' + imgName, function(error){
+                
+            if(error){
+                response.send(error)
+            } else {
+                        
+            }
+        })
+
+    }   
+    
+    const validationErrors = getValidationErrorsForMovies(title, imgName, description, year, characterSelected)
+
+    if(validationErrors.length == 0){
+        const query = `INSERT INTO movies (title, imgName, year, description, char_id)
+                VALUES(?, ?, ?, ?, ?)`
+
+        const values = [title, imgName, year, description, characterSelected]
+
+        db.run(query, values, function(error,){
+        response.redirect('/movies')
+    })
+    } else {
+        const model = {
+        validationErrors,
+        title,
+        imgName,
+        year,
+        description,
+        characterSelected
+            
+        }
+
+        response.render('add-movie.hbs', model)
+    } 
+ 
+})
+
+//-------------------delete movie----------------------------
+app.post('/delete-movie/:movieID', function(request, response){
+    const id = request.params.movieID
+
+    const query = `DELETE FROM movies WHERE movieID = ?`
+
+    db.run(query, id, function(error, movies){     
+
+        response.redirect('/movies')
+    })
+
 })
 
 
