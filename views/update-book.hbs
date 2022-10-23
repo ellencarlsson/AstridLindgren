@@ -1,6 +1,5 @@
-
 <h1 class="title has-text-centered pt-6">
-        Add Book
+        Update {{book.title}}{{newTitle}}
 </h1>
 
 {{#if dbError}}
@@ -10,7 +9,7 @@
         <div class="column is-hidden-mobile">
             {{#if errors.length}}
             <div class="column box is-9 is-centered ml-6" style="color: red;">
-                <div class="subtitle" style="color: red;">Could not add book because:</div>
+                <div class="subtitle" style="color: red;">Could not update book because:</div>
                 <ul>
                     {{#each errors}}
                     <li>• {{this}}</li>
@@ -18,13 +17,12 @@
                 </ul>
             </div>
             {{else}}
-                <section classs="container">
+            <section classs="container">
                 <div class="has-text-centered px-6 my-6 mt-6">                                            
                     <img src="/images/img_ovrigt/karlssonOvrigt .jpeg" >                                      
                 </div>
-                </section>
-            {{/if}} 
-            
+            </section>
+            {{/if}}
             <section class="container">
                 <div class="has-text-centered px-6" style="margin-top: 150px;">                                            
                     <img src="/images/img_ovrigt/pippiLillagubben .jpeg" >                                      
@@ -36,73 +34,74 @@
             <div class="columns">
                 <div class="column">
                     <div class="box ">
-                        <form method="POST"  action="/books/add" enctype="multipart/form-data" >
+                        <form method="POST"  action="/books/update/{{id}}" enctype="multipart/form-data" >
                             <div class="mb-3">
-                                Title: <input type="string" name="title" placeholder="Type title" class="input" onkeydown="return event.key != 'Enter';" value="{{title}}">
+                                Title: <input type="string" name="newTitle" placeholder="Type title" class="input" onkeydown="return event.key != 'Enter';" value="{{book.title}}{{newTitle}}">
                             </div>
                             <div class="mb-3 ">
-                                Description: <textarea onkeydown="return event.key = 'Enter';" class="input textarea" name="description" rows="3" placeholder="Type description">{{description}}</textarea>                        
+                                Description: <textarea onkeydown="return event.key = 'Enter';" class="input textarea" name="newDescription" rows="3" placeholder="Type description">{{book.description}}{{newDescription}}</textarea>                        
                             </div>           
                             <div class="columns is-left mb-0">
                                 <div class="column is-7 ">                       
-                                    Book cover: <input type="file" name="imageName" class="input" accept="image/jpg, image/jpeg"/>  
+                                    Book cover: <input type="file" name="newImageName" class="input" accept="image/jpg, image/jpeg" />  
                                     <div class="help">
                                         Allowed file types are: jpeg, jpg
-                                    </div>   
-                                                        
+                                    </div>                        
                                 </div>  
                                 <div class="column is-5 mt-1">               
                                     <br>
-                                    <input type="checkbox" name="checkImg" value="true" >
+                                    <input type="checkbox" name="checkImg" value="true">
                                     Use the standard cover 
                                 </div>  
                             </div>
-                            {{#if imgName}}
-                                <div class="columns is-left mb-0">
+
+                            <div class="columns is-left mb-0">
                                 <div class="column">
-                                    <img class="image is-64x64" src="/images/img_books/{{imgName}}" alt="">
+                                    <img class="image is-64x64" src="/images/img_books/{{book.imgName}}{{newImgName}}" alt="">
                                     <div class="help">
                                         Current book cover
                                     </div>
                                 </div> 
                                 <div class="column is-5 mt-1">               
                                     
-                                    <input type="checkbox" name="checkCurrentImg" checked="true" value="{{imgName}}" >
+                                    <input type="checkbox" name="checkCurrentImg" checked="true" value="{{book.imgName}}{{newImgName}}" >
                                     Use the current book cover
                                 </div>      
                             </div>
-                            {{/if}}
-                            
+
                             <div class="mb-3">
-                                Year: <input type="integer" name="year" placeholder="Type year" class="input" value="{{year}}">
+                                Year: <input type="integer" name="newYear" placeholder="Type year" class="input" value="{{book.year}}{{newYear}}">
                             </div>
                             <div class="mb-3">
-                                Book Type: <input type="string" name="bookType" placeholder="Type Book Type" class="input" value="{{bookType}}">
+                                Book Type: <input type="string" name="newBookType" placeholder="Type Book Type" class="input" value="{{book.bookType}}{{newBookType}}">
                             </div>
                             <div class="mb-3">
-                                Illustrator: <input type="string" name="illustrator" placeholder="Type Illustrator" class="input" value="{{illustrator}}">
+                                Illustrator: <input type="string" name="newIllustrator" placeholder="Type Illustrator" class="input" value="{{book.illustrator}}{{newIllustrator}}">
                             </div>
                             <div class="mb-3">
-                                Publisher: <input type="string" name="publisher" placeholder="Type Publisher" class="input" value="{{publisher}}">
+                                Publisher: <input type="string" name="newPublisher" placeholder="Type Publisher" class="input" value="{{book.publisher}}{{newPublisher}}">
                             </div>
                             <div>
                                 Character:
                             </div>            
                             <div class="select" >
                                 <select name="selectCharacter">
-                                    
                                         {{#if characterSelectedValues}}
                                         <option value="{{characterSelectedValues.id}}">{{characterSelectedValues.name}}</option>
+                                        {{else}}
+                                        <option value="{{book.char_id}}">{{book.name}}</option>
+                                        
                                         {{/if}}
 
-                                        {{#each character}}                                                
+                                        {{#each character}}                                                 
                                             <option value="{{id}}">{{name}}</option>                      
-                                        {{/each}}    
+                                        {{/each}} 
                                 </select>              
                             </div>
+                           
                             <div class="column has-text-centered">
                                 <button class="button is-medium is-responsive mt-6">
-                                    Add book
+                                    Update book
                                 </button>
                             </div>  
                         </form>
@@ -129,13 +128,12 @@
 <column class="is-hidden-desktop">
     {{#if errors.length}}
         <div class="column box is-6 is-centered" style="color: red;">
-            <div class="subtitle" style="color: red;">Could not add book because:</div>
+            <div class="subtitle" style="color: red;">Could not update book because:</div>
             <ul>
                 {{#each errors}}
-                <li>• {{this}}</li>
+                    <li>• {{this}}</li>
                 {{/each}}
             </ul>
         </div>
     {{/if}}
 </column>
-

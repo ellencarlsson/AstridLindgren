@@ -1,57 +1,72 @@
-{{!-- {{movie.title}}
-{{movie.name}} --}}
+{{#if dbError}}
+    <p class="subtitle has-text-centered" style="margin-top:100px ;">Couldn't display the page right now, try again later</p>
+    <div class="column has-text-centered">
+        <a href="/" class="button is-responsive mt-2">Go to start page</a>
+    </div>
+{{else}}
 
 {{#if movie}}
-
     <h1 class="title has-text-centered pt-6">
         {{movie.title}} 
     </h1> 
-
-    <p>här är karaktärens namn: {{movie.name}}</p>
-
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column image">
-                    
+                <div class="column image">  
                     <img src="/images/img_movies/{{movie.imgName}}">
                 </div>
                 <div class="column">
-                    
                     <p>
                         {{movie.description}}
                     </p> 
                 </div>
                 <div class="column">
                     <div class="has-text-centered px-6">
-                            
-                            <a href="/characters/{{movie.char_id}}">  
-                                <img src="/images/img_characters/{{movie.imageName}}" style="border-radius: 50%;">      
-                            </a> 
-                            <div class="subtitle">
-                                This movie is about {{movie.name}}
-                                <div class="subtitle is-7">
-                                Click on the picture for mor information about the character
+                        <a href="/characters/{{movie.char_id}}">  
+                            <img src="/images/img_characters/{{movie.imageName}}" style="border-radius: 50%;">      
+                        </a> 
+                        <div class="subtitle">
+                            This movie is about {{movie.name}}
+                            <div class="subtitle is-7">
+                                Click on the picture for more information about the character
                             </div> 
-                            </div>   
-                            
+                        </div>                              
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-
-
-
-
-
-
-    <div class="section">
-        <p>
-            här ska det vara andra filmer från samma karaktär
-        </p>
-    </div>
-{{else}}
-    <p>That movie does not exist</p>
+    {{#if isLoggedIn}}
+        <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-narrow">
+                <p class="bd-notification is-primary">
+                    <form action="/movies/delete/{{movie.movieID}}" method="POST">
+                        <button class="button">Delete {{movie.title}}</button>
+                    </form>
+                </p>
+            </div>
+            <div class="column is-narrow">
+                <p class="bd-notification is-primary">
+                    <a href="/movies/update/{{movie.movieID}}" class="button">Update {{movie.title}}</a>
+                </p>
+            </div>
+        </div>
+    {{/if}}
+    {{else}}
+        <div class="subtitle is-4 has-text-centered mt-6" style="font-size: 135px;">
+            404
+        </div>
+        <div class="subtitle is-4 has-text-centered mt-6">
+            The movie you're trying to reach does not exist here
+        </div>
+        <div class="column has-text-centered">
+            <a href="/movies" class="button is-responsive">Go to all movies</a>
+        </div>
+        <div class="column has-text-centered">
+            <img src="/images/img_characters/karlsson_sur.jpeg">
+        </div>
+    {{/if}}
 {{/if}}
+
+
+

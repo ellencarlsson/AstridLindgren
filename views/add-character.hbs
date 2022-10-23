@@ -1,57 +1,136 @@
-
-
-
 <h1 class="title has-text-centered pt-6">
         Add Character
 </h1> 
 
-
-
 <div class="columns is-centered">
+    <div class="column is-hidden-mobile">
+        {{#if errors.length}}
+            <div class="column box is-9 is-centered ml-6" style="color: red;">
+                <div class="subtitle" style="color: red;">Could not add book because:</div>
+                <ul>
+                    {{#each errors}}
+                    <li>• {{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            {{else}}
+            <section class="container">
+                <div class="has-text-centered px-6 my-6">                                            
+                    <img src="/images/img_ovrigt/karlssonOvrigt .jpeg" >                                      
+                </div>
+            </section>
+        {{/if}}
+    </div>
+
     <div class="column is-5">
-        <div class="box ">
-            <form method="POST"  action="/add-character"  enctype="multipart/form-data">
-                <div class="mb-3">
-                    Name: <input type="string" name="name" placeholder="Type name" class="input">
-                </div>
-                <div class="mb-3">
-                    Description: <input type="string" name="description" placeholder="Type description" class="input">
-                </div>
-               <div class="mb-3">
-                    Image:  
-                    <input type="file" name="imageName" accept="image/png, image/jpeg" placeholder="Type description" class="input" />
-                    <p class="help">     
-                            <input type="checkbox" name="checkImg" checked="true" value="true">
-                            Use the standard image                    
-                    </p>
-                </div>
-                <div class="mb-3">
-                    Theme song: <input type="file" name="soundName" accept="audio/mp3" placeholder="Type description" class="input"/>       
-                    <p class="help">             
-                            <input type="checkbox" name="checkSnd" checked="true" value="true">
-                            Use the standard theme song                    
-                    </p>
-                </div>
-                
-                <div class="column has-text-centered">
-                    <button class="button is-medium is-responsive mt-6">
-                        Add character
-                    </button>
-                </div>  
+        <div class="columns">
+            <div class="column">
+                <div class="box ">
+                    <form method="POST"  action="/characters/add"  enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
+                        <div class="mb-3">
+                            Name: <input type="string" name="name" placeholder="Type name" class="input" value="{{name}}">
+                        </div>
+                        <div class="mb-3 ">
+                            Description: <textarea onkeydown="return event.key = '\r\n';" class="input textarea" name="description" rows="3" placeholder="Type description">{{description}}</textarea>                        
+                        </div>  
 
+                        <div class="columns is-left mb-0">
+                            <div class="column is-7 ">                       
+                                Image:  <input type="file" name="imageName" accept="image/png, image/jpeg" class="input" value=""/> 
+                                <div class="help">
+                                    Allowed file types are: jpeg, jpg
+                                </div>                        
+                            </div>  
+                            <div class="column is-5 mt-1">               
+                                <br>    
+                                <input type="checkbox" name="checkImg" value="true" >
+                                Use standard image
+                            </div> 
+                        </div>     
 
-            </form>
-        </div>
-    </div>  
+                        {{#if imageName}}                      
+                            <div class="columns is-left mb-0">
+                                <div class="column">
+                                    <img class="image is-64x64" src="/images/img_characters/{{imageName}}" alt="">
+                                    <div class="help">
+                                        Current image
+                                    </div>
+                                </div> 
+                                <div class="column is-5 mt-1">               
+                                    
+                                    <input type="checkbox" name="checkCurrentImg" checked="true" value="{{imageName}}" >
+                                    Use the current image
+                                </div>      
+                            </div>
+                        {{/if}}
+
+                        <div class="columns is-left mb-0">
+                            <div class="column is-7 ">                       
+                            Theme song: <input type="file" name="soundName" accept="audio/mp3" class="input"/>       
+                                <div class="help">
+                                    Allowed file types are: mp3
+                                </div>                        
+                            </div>  
+                            <div class="column is-5 mt-1">               
+                                <br>    
+                                <input type="checkbox" name="checkSnd"  value="true">
+                                    Use standard theme song 
+                            </div>      
+                        </div>
+
+                        {{#if soundName}}                      
+                            <div class="columns is-left mb-0">
+                                <div class="column">
+                                    <audio controls autoplay>
+                                        <source src="/sounds/{{soundName}}" type="audio/mp3">
+                                    </audio>
+                                    <div class="help">
+                                        Current sound
+                                    </div>
+                                </div> 
+                                <div class="column is-5 mt-1">               
+                                    
+                                    <input type="checkbox" name="checkCurrentSnd" checked="true" value="{{soundName}}" >
+                                    Use the current sound
+                                </div>      
+                            </div>
+                        {{/if}}
+
+                        <div class="column has-text-centered">
+                            <button class="button is-medium is-responsive mt-6">
+                                Add character
+                            </button>
+                        </div>  
+                    </form>
+                </div>
+            </div> 
+        </div>  
+    </div>
+    <div class="column is-hidden-mobile">
+        <section class="container">
+            <div class="has-text-centered px-6 mt-6">                                            
+                <img src="/images/img_ovrigt/pippiOvrigt .jpeg" >                                      
+            </div>
+        </section>
+    </div>
 </div>
+<column class="is-hidden-desktop">
+    {{#if errors.length}}
+        <div class="column box is-6 is-centered" style="color: red;">
+            <div class="subtitle" style="color: red;">Could not add movie because:</div>
+            <ul>
+                {{#each errors}}
+                <li>• {{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+</column>
 
 
 
 
-
-
-
-
+      
 
 
 

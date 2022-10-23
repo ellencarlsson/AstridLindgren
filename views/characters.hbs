@@ -1,80 +1,48 @@
 <link rel="stylesheet" href="characters.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <div class="column">
+        <h1 class="title has-text-centered pt-6">
+            <div>
+                Characters
+            </div>
+        </h1>
+    </div>
+ {{#if dbError}}
+    <p class="subtitle has-text-centered" style="margin-top:100px ;">Couldn't display the page right now, try again later</p>
+    <div class="column has-text-centered">
+        <a href="/" class="button is-responsive mt-2">Go to start page</a>
+    </div>
+{{else}}
 
 <body>
-    <h1 class="title has-text-centered pt-6">
-        {{!-- <div>
-            <img src="/images/img_characters/header-character.jpeg">
-        </div> --}}
-        <div>
-            Characters
-        </div>
-    </h1>
-
-    {{#if dbError}}
-
-        <div class="subtitle is-4 has-text-centered mt-6">
-            Charatcers could not load, please try again later
-        </div>
-        
-        <div class="column has-text-centered">
-            <a href="/" class="button is-responsive mt-6">Go to start page</a>
-        </div>
-
-
-
-
-
-
-    {{else}}
-        {{#if characters.length}}
-        
-            <section class="section">
-                <div class="container">
-                    <div class="columns is-multiline is-8 is-variable">
-                        {{#each characters}} 
-                            <div class="column is-4-tablet is-3-desktop">
-
-                                <section class="container">
-                                    <div class="has-text-centered image is-square">
-                                            <a href="/characters/{{id}}">  
-                                                <img style="padding: 10%;" class="is-rounded" src="/images/img_characters/{{imageName}}">      
-                                            </a>    
-                                    </div>
-                                    
-                                    <div class= "has-centered">
-                                        <a href="/characters/{{id}}" class="card-header-title is-centered">{{name}}</a>
-                                    </div>
-
-                                </section>
-                                    
-                            </div>
-                        {{/each}}    
-                    </div>
+    {{#if characters.length}}
+        <section class="section">
+            <div class="container">
+                <div class="columns is-multiline is-8 is-variable">
+                    {{#each characters}} 
+                        <div class="column is-4-tablet is-3-desktop">
+                            <section class="container">
+                                <div class="has-text-centered image is-square">
+                                    <a href="/characters/{{id}}">  
+                                        <img style="padding: 10%;" class="is-rounded" src="/images/img_characters/{{imageName}}">      
+                                    </a>    
+                                </div>                              
+                                <div class= "has-text-centered ">
+                                    <a href="/characters/{{id}}" class="subtitle is-centered has-text-centered">{{name}}</a>
+                                </div>
+                            </section>        
+                        </div>
+                    {{/each}}    
                 </div>
-            </section>
-            
-                                    
-        
-        {{else}}
-            <p>There is no characters at the moment.</p>
-    {{/if}}
-
-    <div class="columns is-mobile is-multiline is-centered">
-        <div class="column is-narrow">
-            <p class="bd-notification is-primary">
-                <a href="/add-character" class="button">Add character</a>
-            </p>
-        </div>   
+            </div>
+        </section>                                      
+    {{else}}
+    <div class="colums has-text-centered">
+        <div class="column subtitle">
+            There is no characters at the moment
+        </div>
     </div>
-
-    {{/if}}
-   
-    
-    
-    
+    {{/if}}  
 </body>
-
-
-
+{{/if}}
 

@@ -1,17 +1,11 @@
-<link rel="stylesheet" href="/layout.css">
-
 <h1 class="title has-text-centered pt-6">
         Login
 </h1> 
-{{#if validationError.length}}
-    {{#each validationError}}
-        <li>{{this}}</li>
-    {{/each}}
+
+{{#if msg.length}}
+    {{msg}}
+jijjj
 {{/if}}
-
-
-
-
 
 <div class="columns is-centered">
     <div class="column is-hidden-mobile">
@@ -21,18 +15,16 @@
             </div>
         </section>
     </div>
-
-
     <div class="column is-5">
         <div class="columns">
             <div class="column">
                 <div class="box ">
                     <form method="POST"  action="" onkeydown="return event.key != 'Enter';">
                         <div class="mb-3">
-                            Username: <input type="text" name="username" placeholder="Type username" class="input">
+                            Username: <input type="text" name="username" placeholder="Type username" class="input" value="{{enteredUsername}}">
                         </div>
                         <div class="mb-3">
-                            Password: <input type="password" name="password" placeholder="Type password" class="input">
+                            Password: <input type="password" name="password" placeholder="Type password" class="input" value="{{enteredPassword}}">
                         </div>
                         <div class="column has-text-centered">
                             <button class="button is-medium is-responsive mt-6">
@@ -43,8 +35,18 @@
                 </div>
             </div>  
         </div>
+        
+        {{#if errors.length}}
+            <div class="column box is-9 is-centered ml-6" style="color: red;">
+                <div class="subtitle" style="color: red;">Could not login because:</div>
+                <ul>
+                    {{#each errors}}
+                    <li>• {{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}   
     </div>
-
 
     <div class="column is-hidden-mobile">
         <section class="container">
@@ -54,6 +56,11 @@
         </section>
     </div>
 </div>
+
+
+
+
+
 
 
 

@@ -1,7 +1,5 @@
-
-
 <h1 class="title has-text-centered pt-6">
-        Add Movie
+        Update {{movie.title}}{{newTitle}}
 </h1> 
 
  {{#if dbError}}
@@ -12,15 +10,24 @@
     </div>
 {{else}}
 
+    {{#if validationErrors.length}}
+    <p>coudnt finish because:</p>
+    <ul>
+        {{#each validationErrors}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
+
     <div class="columns is-centered">
         <div class="column is-hidden-mobile">
             {{#if errors.length}}
             <div class="column box is-9 is-centered ml-6" style="color: red;">
-                <div class="subtitle" style="color: red;">Could not add movie because:</div>
+                <div class="subtitle" style="color: red;">Could not update movie because:</div>
                 <ul>
-                    {{#each errors}}
+                {{#each errors}}
                     <li>• {{this}}</li>
-                    {{/each}}
+                {{/each}}
                 </ul>
             </div>
             {{else}}
@@ -36,16 +43,16 @@
             <div class="columns">
                 <div class="column">
                     <div class="box ">
-                        <form method="POST" action="/movies/add" enctype="multipart/form-data">
+                        <form method="POST" action="/movies/update/{{id}}" enctype="multipart/form-data">
                             <div class="mb-3">
-                                Title: <input type="string" name="title" placeholder="Type title" class="input" onkeydown="return event.key != 'Enter';" value="{{title}}">
+                                Title: <input type="string" name="newTitle" placeholder="Type title" class="input" onkeydown="return event.key != 'Enter';" value="{{movie.title}}{{newTitle}}">
                             </div>
                             <div class="mb-3 ">
-                                Description: <textarea onkeydown="return event.key = 'Enter';" class="input textarea" name="description" rows="3" placeholder="Type description">{{description}}</textarea>                        
+                                Description: <textarea onkeydown="return event.key = 'Enter';" class="input textarea" name="newDescription" rows="3" placeholder="Type description">{{movie.description}}{{newDescription}}</textarea>                        
                             </div>
                             <div class="columns is-left mb-0">
                                 <div class="column is-7 ">                       
-                                    Movie cover: <input type="file" name="imageName" class="input" accept="image/jpg, image/jpeg"/>  
+                                    Movie cover: <input type="file" name="newImageName" class="input" accept="image/jpg, image/jpeg"/>  
                                     <div class="help">
                                         Allowed file types are: jpeg, jpg
                                     </div>                        
@@ -54,26 +61,22 @@
                                     <br>
                                     <input type="checkbox" name="checkImg" value="true">
                                     Use the standard cover 
-                                </div>  
+                                </div>                                
                             </div>
-
-                            {{#if imgName}}
-                                <div class="columns is-left mb-0">
-                                <div class="column">
-                                    <img class="image is-64x64" src="/images/img_movies/{{imgName}}" alt="">
-                                    <div class="help">
-                                        Current movie cover
-                                    </div>
-                                </div> 
-                                <div class="column is-5 mt-1">                            
-                                    <input type="checkbox" name="checkCurrentImg" checked="true" value="{{imgName}}" >
-                                    Use the current movie cover
-                                </div>      
-                            </div>
-                            {{/if}}
-
+                            <div class="columns is-left mb-0">
+                                    <div class="column">
+                                        <img class="image is-64x64" src="/images/img_movies/{{movie.imgName}}{{newImageName}}" alt="">
+                                        <div class="help">
+                                            Current book cover
+                                        </div>
+                                    </div> 
+                                    <div class="column is-5 mt-1">                                                    
+                                        <input type="checkbox" name="checkCurrentImg" checked="true" value="{{movie.imgName}}{{newImageName}}" >
+                                        Use the current book cover
+                                    </div>      
+                                </div>
                             <div class="mb-3">
-                                Year: <input type="integer" name="year" placeholder="Type year" class="input" value="{{year}}">
+                                Year: <input type="integer" name="newYear" placeholder="Type year" class="input" value="{{movie.year}}{{newYear}}">
                             </div>
                             <div>
                                 Character:
@@ -82,17 +85,20 @@
                                 <select name="selectCharacter">
                                     {{#if characterSelectedValues}}
                                         <option value="{{characterSelectedValues.id}}">{{characterSelectedValues.name}}</option>
+                                    {{else}}
+                                        <option value="{{movie.char_id}}">{{movie.name}}</option>              
                                     {{/if}}
                                     {{#each character}}
                                     <option value={{id}} name="name" >{{name}}</option>
                                     {{/each}}
                                 </select>             
-                            </div>                
+                            </div>                         
+                            
                             <div class="column has-text-centered">
                                 <button class="button is-medium is-responsive mt-6">
-                                    Add movie
+                                    Update movie
                                 </button>
-                            </div>      
+                            </div>  
                         </form>
                     </div>
                 </div>  
@@ -111,11 +117,11 @@
 <column class="is-hidden-desktop">
     {{#if errors.length}}
         <div class="column box is-6 is-centered" style="color: red;">
-            <div class="subtitle" style="color: red;">Could not add movie because:</div>
+            <div class="subtitle" style="color: red;">Could not update movie because:</div>
             <ul>
-                {{#each errors}}
+            {{#each errors}}
                 <li>• {{this}}</li>
-                {{/each}}
+            {{/each}}
             </ul>
         </div>
     {{/if}}

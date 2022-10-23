@@ -1,9 +1,82 @@
-<h1>Books</h1>
+<link rel="stylesheet" href="/layout.css">
 
-<div class="columns is-mobile is-multiline is-centered">
-    <div class="column is-narrow">
-        <p class="bd-notification is-primary">
-            <a href="/add-book" class="button">Add book</a>
-        </p>
-    </div>   
-</div>
+{{#if dbError}}
+    <p class="subtitle has-text-centered" style="margin-top:100px ;">Couldn't display the page right now, try again later</p>
+
+    <div class="column has-text-centered">
+        <a href="/" class="button is-responsive mt-2">Go to start page</a>
+    </div>
+{{else}}
+    {{#if book}}
+        <h1 class="title has-text-centered pt-6">
+            {{book.title}} 
+        </h1> 
+
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column image">
+                        <img src="/images/img_books/{{book.imgName}}">     
+                    </div>
+                    <div class="column">  
+                        <p>
+                            {{book.description}}
+                        </p> 
+                    </div>
+                    <div class="column">
+                        <div class="has-text-centered px-6">     
+                            <a href="/characters/{{book.char_id}}">  
+                                <img src="/images/img_characters/{{book.imageName}}" style="border-radius: 50%;">      
+                            </a> 
+                            <div class="subtitle">
+                                This book is about {{book.name}}
+                                <div class="subtitle is-7">
+                                    Click on the picture for more information about the character
+                                </div> 
+                            </div>  
+                            <section class="box has-text-left" id="bookBox">
+                                <ul>
+                                    <li><b>Book Type: </b>  {{book.bookType}}</li>
+                                    <li><b>Illustrator: </b> {{book.illustrator}}</li>
+                                    <li><b>Publisher: </b> {{book.publisher}}</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>         
+                </div>
+            </div>
+        </section>
+
+        {{#if isLoggedIn}}
+        <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-narrow">
+                <p class="bd-notification is-primary">
+                    <form action="/books/delete/{{book.bookID}}" method="POST">
+                        <button class="button">Delete {{book.title}}</button>
+                    </form>
+                </p>
+            </div>
+            <div class="column is-narrow">
+                <p class="bd-notification is-primary">
+                    <a href="/books/update/{{book.bookID}}" class="button">Update {{book.title}}</a>
+                </p>
+            </div>
+        </div>
+        {{/if}}
+
+    {{else}}
+        <div class="subtitle is-4 has-text-centered mt-6" style="font-size: 135px;">
+            404 
+        </div>
+        <div class="subtitle is-4 has-text-centered mt-6">
+            The book you're trying to reach does not exist here
+        </div>   
+        <div class="column has-text-centered">
+            <a href="/books" class="button is-responsive">Go to all books</a>
+        </div>
+        <div class="column has-text-centered">
+            <img src="/images/img_characters/karlsson_sur.jpeg">
+        </div>
+    {{/if}}
+{{/if}}
+

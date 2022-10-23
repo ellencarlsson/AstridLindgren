@@ -1,68 +1,47 @@
+<h1 class="title has-text-centered pt-6">
+    Movies
+ </h1>
 
-<div class="columns">
-    <div class="column">
-        här ska det finnas filter och sortering
-    </div>
-    <div class="column">
-        <h1 class="title has-text-centered pt-6">
-            <div>
-                Movies
-            </div>
-        </h1>
-    </div>
-    <div class="column">
-        <h1 class="title has-text-centered pt-6">
-            <div>
-                <p class="bd-notification is-primary ">
-                    <a href="/add-movie" class="button">Add movies</a>
-                </p>
-            </div>
-        </h1>
-    </div>
-</div>
-
-
-<body>
+{{#if dbError}}
+    <p class="subtitle has-text-centered" style="margin-top:100px ;">Couldn't display the page right now, try again later</p>
     
-
+    <div class="column has-text-centered">
+        <a href="/" class="button is-responsive mt-2">Go to start page</a>
+    </div>
+{{else}}
     {{#if movies.length}}
-        
-            <section class="section">
-                <div class="container">
-                    <div class="columns is-multiline is-8 is-variable">
-                        {{#each movies}} 
+        <section class="section">
+            <div class="container">
+                <div class="columns is-multiline is-8 is-variable">
+                    {{#each movies}} 
+                        {{#if char_id}}
                             <div class="column is-4-tablet is-3-desktop">
-
                                 <section class="container">
                                     <div class="has-text-centered px-6">
-                                            <a href="/movies/{{movieID}}">  
-                                                <img src="/images/img_movies/{{imgName}}" >   
-                                            </a>   
-                                                   
-                                    </div>
-                                    
+                                        <a href="/movies/{{movieID}}">  
+                                            <img src="/images/img_movies/{{imgName}}" >   
+                                        </a>                                                     
+                                    </div>                                     
                                     <div class= "has-text-centered">
                                         <a href="/movies/{{id}}" class="subtitle is-centered has-text-centered">{{title}}</a>
                                         <div class="help">
-                                                {{year}}
-                                            </div> 
+                                            {{year}}
+                                        </div> 
                                     </div>
-                                    
-
-                                </section>
-                                    
+                                </section>         
                             </div>
-                        {{/each}}    
-                    </div>
+                        {{/if}}
+                    {{/each}}    
                 </div>
-            </section>
-            
-                                    
-        
-        {{else}}
-            <p>There is no movies at the moment.</p>
+            </div>
+        </section>             
+    {{else}}
+        <div class="colums has-text-centered">
+            <div class="column subtitle">
+                There is no movies at the moment
+            </div>
+        </div>
     {{/if}}
+{{/if}}
 
     
-
-</body>
