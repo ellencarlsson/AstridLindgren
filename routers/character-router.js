@@ -20,7 +20,7 @@ function getValidationErrorsForImg(fileName){
         return validationErrors
     }
 
-    const arraryOfAllowedFiles = [".jpeg", ".jpg"]
+    const arraryOfAllowedFiles = [".jpeg", ".jpg", ".JPEG", ".JPG"]
     const extension = path.extname(fileName)
 
     for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
@@ -44,7 +44,7 @@ function getValidationErrorsForSnd(fileName){
         return validationErrors
     }
 
-    const arraryOfAllowedFiles = [".mp3"]
+    const arraryOfAllowedFiles = [".mp3", "MP3"]
     const extension = path.extname(fileName)
 
     for(var i=0; i<arraryOfAllowedFiles.length; i+=1){

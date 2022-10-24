@@ -16,7 +16,7 @@ function getValidationErrorsForImg(fileName){
         return validationErrors
     }
 
-    const arraryOfAllowedFiles = [".jpeg", ".jpg"]
+    const arraryOfAllowedFiles = [".jpeg", ".jpg", ".JPEG", ".JPG"]
     const extension = path.extname(fileName)
 
     for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
