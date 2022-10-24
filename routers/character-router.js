@@ -9,84 +9,9 @@ const e = require('express')
 const { isNull } = require('node:util')
 const { copyFileSync } = require('node:fs')
 const { get } = require('node:http')
+const validations = require('../validations.js')
 
 module.exports = router
-
-function getValidationErrorsForImg(fileName){
-    const validationErrors = []
-
-    if(!fileName){
-        validationErrors.push("Must choose an image file")
-        return validationErrors
-    }
-
-    const arraryOfAllowedFiles = [".jpeg", ".jpg", ".JPEG", ".JPG"]
-    const extension = path.extname(fileName)
-
-    for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
-        if(extension == arraryOfAllowedFiles[i]){
-            return validationErrors
-        }
-        if(i == arraryOfAllowedFiles.length-1){
-            const errorMessage = "You can not choose the type " + extension + " , please choose another type"
-            validationErrors.push(errorMessage)
-        }
-    }
-    
-    return validationErrors
-}
-
-function getValidationErrorsForSnd(fileName){
-    const validationErrors = []
-
-    if(!fileName){
-        validationErrors.push("Must choose a sound file")
-        return validationErrors
-    }
-
-    const arraryOfAllowedFiles = [".mp3", "MP3"]
-    const extension = path.extname(fileName)
-
-    for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
-        if(extension == arraryOfAllowedFiles[i]){
-            return validationErrors
-        }
-        if(i == arraryOfAllowedFiles.length-1){
-            const errorMessage = "You can not choose the type " + extension + " , please choose another type"
-            validationErrors.push(errorMessage)
-        }
-    }
-
-    return validationErrors
-}
-
-
-
-function getValidationErrorsForCharacter(name, description, imageName, soundName){
-    const minTitleLength = 1
-    const minDescriptionLength = 1
-    
-    const validationErrors = []
-    
-    if(name.length < minTitleLength){
-        validationErrors.push("Must enter a title")
-    }
-    if(description.length < minDescriptionLength){
-        validationErrors.push("Must enter a description")
-    }
-
-    const validationErrorsForImg = getValidationErrorsForImg(imageName)
-    if (validationErrorsForImg != 0){
-        validationErrors.push(validationErrorsForImg)
-    }
-
-    const validationErrorsForSnd = getValidationErrorsForSnd(soundName)
-    if (validationErrorsForSnd != 0){
-        validationErrors.push(validationErrorsForSnd)
-    }
-
-    return validationErrors
-}
 
 //----------------all characters--------------
 router.get('/', function(request, response){
@@ -130,7 +55,7 @@ router.post('/add', function(request, response){
             } else if (request.files && request.files.imageName){
                 var imgFile = request.files.imageName
                 imageName = imgFile.name
-                imgErrors = getValidationErrorsForImg(imageName)
+                imgErrors = validations.getValidationErrorsForImg(imageName)
 
                 if(imgErrors.length != 0){
                     errors.push(imgErrors)
@@ -153,7 +78,7 @@ router.post('/add', function(request, response){
             } else if (request.files && request.files.soundName){
                 var sndFile = request.files.soundName
                 soundName = sndFile.name
-                const sndErrors = validators.getValidationErrorsForSnd(soundName)
+                const sndErrors = validations.getValidationErrorsForSnd(soundName)
                 if(sndErrors.length != 0){
                     errors.push(sndErrors)
 
@@ -166,7 +91,7 @@ router.post('/add', function(request, response){
                 }    
             }
         
-        errors = getValidationErrorsForCharacter(name, description, imageName, soundName)
+        errors = validations.getValidationErrorsForCharacter(name, description, imageName, soundName)
 
         if(( (request.files && request.files.imageName) && (request.body.checkCurrentImg || request.body.checkImg) ) || (request.body.checkImg && request.body.checkCurrentImg)){
             errors.push("You can only choose one image file")
@@ -244,7 +169,7 @@ router.post('/update/:id', function(request, response){
             } else if(request.files && request.files.newImageName){   
                 var imgFile = request.files.newImageName
                 newImageName = imgFile.name
-                const imgError = getValidationErrorsForImg(newImageName)
+                const imgError = validations.getValidationErrorsForImg(newImageName)
                 if(imgError.length != 0){
                     errors.push(imgError)
 
@@ -266,7 +191,7 @@ router.post('/update/:id', function(request, response){
             } else if(request.files && request.files.newSoundName){
                 var sndFile = request.files.newSoundName
                 newSoundName = sndFile.name
-                const sndErrors = getValidationErrorsForImg(newSoundName)
+                const sndErrors = validations.getValidationErrorsForImg(newSoundName)
                 if(sndErrors.length != 0){
                     errors.push(sndErrors)
 
@@ -279,7 +204,7 @@ router.post('/update/:id', function(request, response){
                 }   
             }
 
-        errors = getValidationErrorsForCharacter(newName, newDescription, newImageName, newSoundName)
+        errors = validations.getValidationErrorsForCharacter(newName, newDescription, newImageName, newSoundName)
 
         if(( (request.files && request.files.newImageName) && (request.body.checkCurrentImg || request.body.checkImg) ) || (request.body.checkImg && request.body.checkCurrentImg)){
             errors.push("You can only choose one image file")

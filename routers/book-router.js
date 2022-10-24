@@ -3,72 +3,11 @@ const dbBooks = require('../dbBooks.js')
 const dbCharacters = require('../dbCharacters.js')
 const path = require('node:path')
 const { REPL_MODE_STRICT } = require('node:repl')
+const validations = require('../validations.js')
 
 const router = express.Router()
 
 module.exports = router
-
-function getValidationErrorsForImg(fileName){
-    const validationErrors = []
-
-    if(!fileName){
-        validationErrors.push("Must choose a file")
-        return validationErrors
-    }
-
-    const arraryOfAllowedFiles = [".jpeg", ".jpg", ".JPEG", ".JPG"]
-    const extension = path.extname(fileName)
-
-    for(i=0; i<arraryOfAllowedFiles.length; i+=1){
-        if(extension == arraryOfAllowedFiles[i]){
-            return validationErrors
-        }
-
-        if(i == arraryOfAllowedFiles.length-1){
-            const errorMessage = "You can not choose the type " + extension + " , please choose another type"
-            validationErrors.push(errorMessage)
-        }
-    } 
-    return validationErrors
-}
-
-//------------------book functions----------------
-function getValidationErrorsForBooks(title, year, bookType, illustrator, publisher, description, imgName){
-    const minLength = 1
-    
-    const validationErrors = []
-
-    if(title.length < minLength){
-        validationErrors.push("Must enter a title")
-    } 
-    if(description.length < minLength){
-        validationErrors.push("Must enter a description")
-    }
-
-    if(year.length < minLength){
-        validationErrors.push("Must type a year")
-    } else if(isNaN(year)){
-        validationErrors.push("Year must be a number")
-    } else if(year < 1800 || year > 2022) {
-        validationErrors.push("Type a year closer to this date ")
-    }
-    const validationErrorsForImg = getValidationErrorsForImg(imgName)
-    if (validationErrorsForImg != 0){
-        validationErrors.push(validationErrorsForImg)
-    }
-
-    if(bookType.length == 0){
-        validationErrors.push("Must enter a bookType")
-    }
-    if(illustrator.length == 0){
-        validationErrors.push("Must enter an illustrator")
-    }
-    if(publisher.length == 0){
-        validationErrors.push("Must enter a publisher")
-    }
-
-    return validationErrors
-}
 
 //------------------all books------------------
 router.get('/', function(request, response){
@@ -138,7 +77,7 @@ router.post('/add', function(request, response){
         } else if (request.files && request.files.imageName){
             var imgFile = request.files.imageName
             imgName = imgFile.name
-            imgError = getValidationErrorsForImg(imgName)
+            imgError = validations.getValidationErrorsForImg(imgName)
             if(imgError.length != 0){
                 errors.push(imgError)
 
@@ -155,7 +94,7 @@ router.post('/add', function(request, response){
             }   
         }   
         
-        errors = getValidationErrorsForBooks(title, year, bookType, illustrator, publisher, description, imgName)
+        errors = validations.getValidationErrorsForBooks(title, year, bookType, illustrator, publisher, description, imgName)
 
 
         if(( (request.files && request.files.imageName) && (request.body.checkImg || request.body.checkCurrentImg)) ||  (request.body.checkImg && request.body.checkCurrentImg)){
@@ -262,7 +201,7 @@ router.post('/update/:id/', function(request, response){
         } else if (request.files && request.files.newImageName){
             var imgFile = request.files.newImageName
             newImgName = imgFile.name
-            imgError = getValidationErrorsForImg(newImgName)
+            imgError = validations.getValidationErrorsForImg(newImgName)
 
             if(imgError.length != 0){
                 errors.push(imgError)
@@ -275,7 +214,7 @@ router.post('/update/:id/', function(request, response){
             } 
         }   
             
-        errors = getValidationErrorsForBooks(newTitle, newYear, newBookType, newIllustrator, newPublisher, newDescription, newImgName)
+        errors = validations.getValidationErrorsForBooks(newTitle, newYear, newBookType, newIllustrator, newPublisher, newDescription, newImgName)
     
         if(((request.files) && (request.body.checkImg || request.body.checkCurrentImg)) ||  (request.body.checkImg && request.body.checkCurrentImg)){
             errors.push("You can only choose one file at the time")
