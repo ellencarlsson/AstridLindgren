@@ -4,7 +4,6 @@ const router = express.Router()
 const path = require('node:path')
 const dbBooks = require('../dbBooks.js')
 const dbMovies = require('../dbMovies.js')
-const validators = ('../validation.js')
 const e = require('express')
 const { isNull } = require('node:util')
 const { copyFileSync } = require('node:fs')
@@ -35,7 +34,11 @@ router.get('/', function(request, response){
 
 //------------------add character---------------    
 router.get('/add', function(request, response){
-    response.render('add-character.hbs')
+    if(request.session.isLoggedIn){
+        response.render('add-character.hbs')
+    } else {
+        response.redirect('/login')
+    } 
 })
 
 router.post('/add', function(request, response){
