@@ -4,7 +4,6 @@ const dbCharacters = require('../dbCharacters.js')
 const path = require('node:path')
 const { REPL_MODE_STRICT } = require('node:repl')
 
-
 const router = express.Router()
 
 module.exports = router
@@ -32,8 +31,6 @@ function getValidationErrorsForImg(fileName){
     
     return validationErrors
 }
-
-
 
 //---------------movie functions----------
 function getValidationErrorsForMovies(title, imgName, description, year ){
@@ -109,7 +106,6 @@ router.get('/add', function(request, response){
         response.redirect('/login')
     }
 
-      
 })
 
 router.post('/add', function(request, response){
@@ -131,11 +127,11 @@ router.post('/add', function(request, response){
             var imgFile = request.files.imageName
             imgName = imgFile.name
             imgErrors = getValidationErrorsForImg(imgName)
-            if(imgErrors){
+            if(imgErrors.length != 0){
                 errors.push(imgErrors)
 
             } else {
-                imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_movies/' + imgName, function(error){
+                imgFile.mv('/Users/ellencarlsson/AstridLindgren/public/images/img_movies/' + imgName, function(error){
                     if(error){
                         console.log(error)
                     }
@@ -279,11 +275,11 @@ router.post('/update/:id', function(request, response){
             var imgFile = request.files.newImageName
             newImageName = imgFile.name
             imgError = getValidationErrorsForImg(newImageName)
-            if(imgError){
+            if(imgError.length != 0){
                 errors.push(imgError)
 
             } else {
-                imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_books/' + newImageName, function(error){
+                imgFile.mv('/Users/ellencarlsson/AstridLindgren/public/images/img_movies/' + newImageName, function(error){
                     if(error){
                         console.log(error)
                     } 

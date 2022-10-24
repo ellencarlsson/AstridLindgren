@@ -29,10 +29,8 @@ function getValidationErrorsForImg(fileName){
             validationErrors.push(errorMessage)
         }
     } 
-     
     return validationErrors
 }
-
 
 //------------------book functions----------------
 function getValidationErrorsForBooks(title, year, bookType, illustrator, publisher, description, imgName){
@@ -68,14 +66,9 @@ function getValidationErrorsForBooks(title, year, bookType, illustrator, publish
     if(publisher.length == 0){
         validationErrors.push("Must enter a publisher")
     }
-    
-
-    
-    //lägg till character sen
 
     return validationErrors
 }
-
 
 //------------------all books------------------
 router.get('/', function(request, response){
@@ -146,11 +139,11 @@ router.post('/add', function(request, response){
             var imgFile = request.files.imageName
             imgName = imgFile.name
             imgError = getValidationErrorsForImg(imgName)
-            if(imgError){
+            if(imgError.length != 0){
                 errors.push(imgError)
 
             } else {
-                imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_books/' + imgName, function(error){              
+                imgFile.mv('/Users/ellencarlsson/AstridLindgren/public/images/img_books/' + imgName, function(error){              
                     if(error){
                         console.log(error)
                         const model = {
@@ -262,16 +255,19 @@ router.post('/update/:id/', function(request, response){
     
         if(request.body.checkImg){
             newImgName = "noBook.jpeg"
+
         } else if(request.body.checkCurrentImg){
             newImgName = request.body.checkCurrentImg
+
         } else if (request.files && request.files.newImageName){
             var imgFile = request.files.newImageName
             newImgName = imgFile.name
             imgError = getValidationErrorsForImg(newImgName)
-            if(imgError){
+
+            if(imgError.length != 0){
                 errors.push(imgError)
             } else {
-                imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_books/' + newImgName, function(error){      
+                imgFile.mv('/Users/ellencarlsson/AstridLindgren/public/images/img_books/' + newImgName, function(error){      
                     if(error){
                         console.log(error)
                     } 
@@ -345,8 +341,6 @@ router.post('/update/:id/', function(request, response){
     }
 })
 
-
-
 //-----------------specific book-------------
 router.get('/:id', function(request,response){
     const id = request.params.id
@@ -386,5 +380,4 @@ router.post('/delete/:id', function(request, response){
     } else {
         response.redirect('/login')
     }
-    
 })

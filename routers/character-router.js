@@ -10,7 +10,6 @@ const { isNull } = require('node:util')
 const { copyFileSync } = require('node:fs')
 const { get } = require('node:http')
 
-
 module.exports = router
 
 function getValidationErrorsForImg(fileName){
@@ -22,6 +21,30 @@ function getValidationErrorsForImg(fileName){
     }
 
     const arraryOfAllowedFiles = [".jpeg", ".jpg"]
+    const extension = path.extname(fileName)
+
+    for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
+        if(extension == arraryOfAllowedFiles[i]){
+            return validationErrors
+        }
+        if(i == arraryOfAllowedFiles.length-1){
+            const errorMessage = "You can not choose the type " + extension + " , please choose another type"
+            validationErrors.push(errorMessage)
+        }
+    }
+    
+    return validationErrors
+}
+
+function getValidationErrorsForSnd(fileName){
+    const validationErrors = []
+
+    if(!fileName){
+        validationErrors.push("Must choose a sound file")
+        return validationErrors
+    }
+
+    const arraryOfAllowedFiles = [".mp3"]
     const extension = path.extname(fileName)
 
     for(var i=0; i<arraryOfAllowedFiles.length; i+=1){
@@ -103,16 +126,17 @@ router.post('/add', function(request, response){
 
             } else if(request.body.checkCurrentImg){
                 imageName = request.body.checkCurrentImg
-            
+
             } else if (request.files && request.files.imageName){
                 var imgFile = request.files.imageName
                 imageName = imgFile.name
-                const imgErrors = getValidationErrorsForImg(imageName)
-                if(imgErrors){
+                imgErrors = getValidationErrorsForImg(imageName)
+
+                if(imgErrors.length != 0){
                     errors.push(imgErrors)
 
                 } else {
-                    imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_characters/' + imageName, function(error){
+                    imgFile.mv('/Users/ellencarlsson/AstridLindgren/public/images/img_characters/' + imageName, function(error){
                         if(error){
                             console.log(error)
                         }
@@ -130,11 +154,11 @@ router.post('/add', function(request, response){
                 var sndFile = request.files.soundName
                 soundName = sndFile.name
                 const sndErrors = validators.getValidationErrorsForSnd(soundName)
-                if(sndErrors){
+                if(sndErrors.length != 0){
                     errors.push(sndErrors)
 
                 } else {
-                    sndFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/sounds/' + soundName, function(error){
+                    sndFile.mv('/Users/ellencarlsson/AstridLindgren/public/sounds/' + soundName, function(error){
                         if(error){
                             console.log(error)
                         }
@@ -221,11 +245,11 @@ router.post('/update/:id', function(request, response){
                 var imgFile = request.files.newImageName
                 newImageName = imgFile.name
                 const imgError = getValidationErrorsForImg(newImageName)
-                if(imgError){
+                if(imgError.length != 0){
                     errors.push(imgError)
 
                 } else {
-                    imgFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/images/img_characters/' + newImageName, function(error){
+                    imgFile.mv('/Users/ellencarlsson/AstridLindgren/public/images/img_characters/' + newImageName, function(error){
                         if(error){
                             console.log(error)
                         }
@@ -243,11 +267,11 @@ router.post('/update/:id', function(request, response){
                 var sndFile = request.files.newSoundName
                 newSoundName = sndFile.name
                 const sndErrors = getValidationErrorsForImg(newSoundName)
-                if(sndErrors){
+                if(sndErrors.length != 0){
                     errors.push(sndErrors)
 
                 } else {
-                    sndFile.mv('/Users/ellencarlsson/Desktop/Webb/astrid-lindgren/public/sounds/' + newSoundName, function(error){
+                    sndFile.mv('/Users/ellencarlsson/AstridLindgren/public/sounds/' + newSoundName, function(error){
                         if(error){
                             console.log(error)
                         }

@@ -1,6 +1,6 @@
 const { query } = require('express')
 const sqlite3 = require('sqlite3')
-const db = new sqlite3.Database("Astrid-Lindgren-database.db")
+const db = new sqlite3.Database("ASTRIDNETWORLD.db")
 
 db.run(`
     CREATE TABLE IF NOT EXISTS books (

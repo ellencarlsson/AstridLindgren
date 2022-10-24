@@ -8,6 +8,8 @@ const SQLiteStore = require('connect-sqlite3')(expressSession)
 const bcrypt = require("bcrypt")
 
 
+
+
 const bookRouter = require('./routers/book-router')
 const movieRouter = require('./routers/movie-router')
 const characterRouter = require('./routers/character-router');
@@ -22,6 +24,8 @@ const app = express()
 app.engine('hbs', expressHandlebars.engine({
     defaultLayout: 'main.hbs'
 })) 
+
+
 
 app.use(
     express.static('public')
@@ -144,3 +148,4 @@ app.use('/characters', characterRouter)
 
 
 app.listen(8080)
+
